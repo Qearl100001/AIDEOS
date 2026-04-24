@@ -61,7 +61,7 @@
 |---|------|------|
 | ☐ | 确认 `data/output/{DATE}-article.md` 已存在 | — |
 | ☐ | `BRIEFING_DATE={DATE} python3 -m tools.article_tts`（豆包，需 `DOUBAO_*`）或 `python3 -m tools.tts_dialogue --preset edge` | 默认读 `article.md`（见 `tools/tts_paths.py`）；豆包产出 `{DATE}-dialogue-doubao.mp3` |
-| ☐ | 依赖 | `requests`、`ffmpeg`；豆包密钥或 Edge/moviepy 等按所选路径配置 |
+| ☐ | 依赖 | `requests`、`imageio-ffmpeg`；豆包密钥或 Edge 等按所选路径配置 |
 
 ---
 

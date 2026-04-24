@@ -21,7 +21,7 @@ def main(argv: list[str] | None = None) -> int:
         "--preset",
         default="stereo",
         choices=sorted(PRESET_IDS),
-        help="音色与合并策略（默认 stereo = Edge + ffmpeg）",
+        help="音色与合并策略（默认 stereo = Edge + 分段合并）",
     )
     parser.add_argument(
         "--date",

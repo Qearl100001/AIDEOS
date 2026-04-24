@@ -22,7 +22,7 @@
 | 环境变量 | 含义 | 默认（示例，以控制台与 [音色列表](https://www.volcengine.com/docs/6561/1257544?lang=zh) 为准） |
 |----------|------|---------------------------|
 | `DOUBAO_VOICE_Q` | **Q**（男声）`req_params.speaker` | `zh_male_m191_uranus_bigtts` |
-| `DOUBAO_VOICE_A` | **A**（女声）`req_params.speaker` | `zh_female_shuangkuaisisi_moon_bigtts` |
+| `DOUBAO_VOICE_A` | **A**（女声）`req_params.speaker` | `zh_female_shuangkuaisisi_uranus_bigtts`（与默认 Q 同属 `uranus` 线，勿与 `moon` 混用） |
 | `DOUBAO_UID` | `user.uid` | `dfos-article-tts` |
 | `DOUBAO_SPEECH_RATE` | 语速 [-50, 100] | `0` |
 | `DOUBAO_LOUDNESS_RATE` | 音量 [-50, 100] | `0` |

@@ -21,13 +21,14 @@
 ## 依赖
 
 - `requests`（见 `requirements.txt`）
-- 系统 `ffmpeg`（合并分段 MP3）
+- 分段 MP3 合并：`imageio-ffmpeg`（随包提供 ffmpeg 可执行文件，`merge_ffmpeg_concat`），见 `tools/tts_dialogue/merge_audio.py`
 
 ## 常见错误（摘自文档错误码表）
 
-| code | 说明 |
-|------|------|
+| code / message | 说明 |
+|----------------|------|
 | `20000000` | 合成结束成功 |
 | `40402003` | 文本超长 |
 | `45000000` | 音色未授权或 `speaker` 错误 |
+| `55000000` + `resource ID is mismatched with speaker` | **`X-Api-Resource-Id` 与 `speaker` 产品线不一致**（例如 `seed-tts-2.0` 下混用 `*_uranus_bigtts` 与 `*_moon_bigtts`）；请改用音色列表中同一模型线下的 ID |
 | （并发类 message） | 并发超限，需降并发或增购 |

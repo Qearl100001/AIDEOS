@@ -29,7 +29,7 @@ class DialoguePreset:
 PRESETS: dict[str, DialoguePreset] = {
     "stereo": DialoguePreset(
         id="stereo",
-        description="Edge Yunxi + Xiaoxiao，ffmpeg 合并（旧 generate_dialogue_audio）",
+        description="Edge Yunxi + Xiaoxiao，分段 MP3 拼接合并（旧 generate_dialogue_audio）",
         backend="edge",
         output_stem="dialogue-stereo",
         qearl_voice="zh-CN-YunxiNeural",

@@ -40,7 +40,7 @@ export DOUBAO_RESOURCE_ID="seed-tts-2.0"
 # export DOUBAO_ACCESS_TOKEN="..."
 
 export DOUBAO_VOICE_Q="zh_male_m191_uranus_bigtts"
-export DOUBAO_VOICE_A="zh_female_shuangkuaisisi_moon_bigtts"
+export DOUBAO_VOICE_A="zh_female_shuangkuaisisi_uranus_bigtts"
 
 python -m tools.article_tts
 # 或指定日期

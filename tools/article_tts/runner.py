@@ -69,7 +69,10 @@ def load_doubao_config() -> tuple[
         os.environ.get("DOUBAO_VOICE_Q", "zh_male_m191_uranus_bigtts")
     )
     voice_a = _strip_env_cred(
-        os.environ.get("DOUBAO_VOICE_A", "zh_female_shuangkuaisisi_moon_bigtts")
+        os.environ.get(
+            "DOUBAO_VOICE_A",
+            "zh_female_shuangkuaisisi_uranus_bigtts",
+        )
     )
     uid = _strip_env_cred(os.environ.get("DOUBAO_UID", "dfos-article-tts"))
     try:

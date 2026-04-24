@@ -176,7 +176,7 @@ def run_preset(preset_id: str, date_str: str | None = None) -> Path | None:
         try:
             merge_ffmpeg_concat(good, final_out)
         except Exception as e:
-            print(f"[tts] ffmpeg 合并失败: {e}", file=sys.stderr)
+            print(f"[tts] 分段合并失败: {e}", file=sys.stderr)
             sys.exit(4)
         print(f"[tts] 已写入: {final_out}")
         return final_out
