@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}结构化文章{% endblock %}
+{% block extra_head %}
+<link rel="stylesheet" href="/dist/static/briefing.css" />
+{% endblock %}
+{% block body_attrs %} class="briefing-page notion-briefing dfos-article-body"{% endblock %}
+{% block body %}
+<div class="dfos-page dfos-page--article">
+  <nav class="dfos-rail" aria-label="应用导航">
+    <a href="/" class="dfos-rail__item" title="日报">
+      <span class="dfos-rail__icon-wrap" aria-hidden="true">
+        <svg class="dfos-rail__svg" width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 6h16M4 12h10M4 18h16" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+          <rect x="15" y="9" width="5" height="7" rx="1" stroke="currentColor" stroke-width="1.75"/>
+        </svg>
+      </span>
+      <span class="dfos-rail__label">日报</span>
+    </a>
+  </nav>
+  <div class="dfos-main dfos-main--solo dfos-main--with-rail">
+    <div class="dfos-text-rail">
+      <div class="briefing-container dfos-article-container">
+        <p class="dfos-back-row">
+          <a href="/" class="dfos-back-link">← 返回首页</a>
+        </p>
+        <main class="dfos-article-main" role="main">
+          <article id="article-container" class="briefing-prose dfos-article-prose">加载中…</article>
+        </main>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block page_scripts %}
+<script>
+  window.__ARTICLE_DATE__ = "{{ date }}";
+</script>
+<script src="/static/js/article.js"></script>
+{% endblock %}

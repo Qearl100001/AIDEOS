@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}设计日报{% endblock %}
+{% block body %}
+<div class="dfos-page">
+  <nav class="dfos-rail" aria-label="应用导航">
+    <a
+      href="/"
+      class="dfos-rail__item dfos-rail__item--active"
+      title="日报"
+      aria-current="page"
+    >
+      <span class="dfos-rail__icon-wrap" aria-hidden="true">
+        <svg class="dfos-rail__svg" width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 6h16M4 12h10M4 18h16" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+          <rect x="15" y="9" width="5" height="7" rx="1" stroke="currentColor" stroke-width="1.75"/>
+        </svg>
+      </span>
+      <span class="dfos-rail__label">日报</span>
+    </a>
+  </nav>
+  <aside class="sidebar" aria-label="日报目录">
+    <header class="dfos-catalog-head">
+      <h1 class="dfos-catalog-brand">设计日报</h1>
+    </header>
+    <ul id="date-list" class="dfos-date-list">
+      {% for d in dates %}
+      {% set meta = date_meta.get(d, {}) %}
+      <li>
+        <button type="button" class="date-btn" data-date="{{ d }}">
+          <span class="date-btn__top">
+            <span class="date-btn__primary">{{ d }}</span>
+            {% if meta.entry_count is not none %}
+            <span class="date-btn__stat">{{ meta.entry_count }} 条入选</span>
+            {% endif %}
+          </span>
+          {% if meta.deep_dive_line %}
+          <span class="date-btn__deep">{{ meta.deep_dive_line }}</span>
+          {% endif %}
+          {% if not meta.get('briefing_has_deep_section', False) %}
+          <span class="date-btn__no-deep">今日暂无深挖文章</span>
+          {% endif %}
+        </button>
+      </li>
+      {% endfor %}
+    </ul>
+  </aside>
+  <div class="dfos-main">
+    <div class="dfos-text-rail">
+      <div id="briefing-container" class="briefing-frame-wrap">
+        <p class="briefing-placeholder">请选择日期</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block page_scripts %}
+<script>
+  window.__INITIAL_DATE__ = "{{ initial_date if initial_date else '' }}";
+</script>
+<script src="/static/js/index.js"></script>
+{% endblock %}

@@ -1,6 +1,52 @@
+# 密钥与本地环境（勿提交）
 .env
+.env.*
+!.env.example
+
+# 运行数据与产物（抓取、中间 JSON、简报/文章/音频）
 data/
+
+# 旧版输出目录（迁移到 data/ 后可删除）
+output/
+
+# 日志
 logs/
+*.log
+
+# Python
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+ENV/
+env/
+.pytest_cache/
+.mypy_cache/
+ruff_cache/
+.coverage
+htmlcov/
+*.egg-info/
+.eggs/
+# 仅根目录 Python 打包产物，勿用 dist/ 以免误伤 web/dist/
+/dist/
+/build/
+
+# 生成的静态文件
+web/dist/
+
+# 工具本地配置
+.claude/settings.local.json
+.claude/tasks.json
+
+# IDE
+.cursor/
+.cursorrules
+.idea/
 .DS_Store
+*.swp
+*swo
+*~
+Thumbs.db

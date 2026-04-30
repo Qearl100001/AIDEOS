@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  dfos:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: dfos
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+      - ./web/dist:/app/web/dist
+    environment:
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - DOUBAO_API_KEY=${DOUBAO_API_KEY}
+      - DOUBAO_RESOURCE_ID=${DOUBAO_RESOURCE_ID}
+      - DOUBAO_VOICE_Q=${DOUBAO_VOICE_Q}
+      - DOUBAO_VOICE_A=${DOUBAO_VOICE_A}
+      - DATE=${DATE:-}
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+    command: bash -c "
+      # 启动定时任务 (crond)
+      crond &&
+      # 启动 FastAPI 服务
+      python -m uvicorn app.main:app --host 0.0.0.0 --port 8000
+      "
+
+  # cron wrapper (可选)
+  # scheduler:
+  #   image: alpine:3.19
+  #   container_name: dfos-scheduler
+  #   volumes:
+  #     - ./scripts:/workspace
+  #     - ./logs:/workspace/logs
+  #   command: >
+  #     sh -c "apk add --no-cache dcron && crond -l /workspace
+  #     && echo '0 7 * * * cd /workspace && /workspace/scripts/full-daily.sh >> /workspace/logs/\$(date +\%Y-\%m-\%d).log 2>&1' >> /etc/crontabs/root
+  #     && tail -f /dev/null"
+  #   restart: unless-stopped
+
+volumes:
+  data:
+  logs:

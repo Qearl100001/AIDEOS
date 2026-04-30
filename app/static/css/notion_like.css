@@ -1,0 +1,798 @@
+:root {
+  /* 参考协作/文档类 UI：冷灰侧栏 + 白主区 + 饱和主色蓝 */
+  --dfos-accent: #0095ff;
+  --dfos-accent-hover: #0078d4;
+  --dfos-shell-bg: #f5f7f9;
+  --dfos-content-bg: #ffffff;
+  --dfos-text-primary: #1a1a1a;
+  --dfos-text-body: #333333;
+  --dfos-text-muted: #999999;
+  --dfos-border: #e0e0e0;
+  --bg: var(--dfos-shell-bg);
+  --card: #ffffff;
+  --text: var(--dfos-text-body);
+  --border: var(--dfos-border);
+  --dfos-min: 960px;
+  --dfos-max: 1440px;
+  --dfos-briefing-h1-size: 2.5rem;
+  --dfos-briefing-h1-weight: 700;
+  --dfos-briefing-h1-spacing: -0.03em;
+  --dfos-briefing-h1-line: 1.2;
+  --dfos-briefing-h2-size: 1.375rem;
+  --dfos-briefing-h2-weight: 600;
+  --dfos-briefing-h2-spacing: -0.012em;
+  --dfos-briefing-h2-line: 1.3;
+  --dfos-briefing-text: var(--dfos-text-body);
+  /* 顶 40px；正文区左右 80px；底 24px；侧栏左右较窄 */
+  --dfos-pad-top: 40px;
+  --dfos-sidebar-pad-x: 24px;
+  --dfos-content-pad-x: 80px;
+  --dfos-pad-bottom: 24px;
+  --dfos-content-pad: var(--dfos-content-pad-x);
+  --dfos-radius: 10px;
+  --dfos-font: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
+    "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol",
+    "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei";
+  /* 正文/标题：思源宋体 / 系统宋体栈（书籍详情页风格） */
+  --dfos-font-serif: "Source Han Serif SC", "Noto Serif SC", "Noto Serif CJK SC",
+    "Songti SC", "STSong", "SimSun", Georgia, "Times New Roman", serif;
+  /* 窄轨、目录侧栏、日期行默认共用的底；仅日期按钮另有悬停/选中 */
+  --dfos-chrome-bg: #f5f7f9;
+  --dfos-sidebar-bg: var(--dfos-chrome-bg);
+  --dfos-date-row-bg: var(--dfos-chrome-bg);
+  --dfos-date-row-active: #ffffff;
+  --dfos-date-row-active-hover: #f5f6f7;
+  --dfos-rail-bg: var(--dfos-chrome-bg);
+  --dfos-rail-active-bg: var(--dfos-chrome-bg);
+  --dfos-date-divider: rgba(55, 53, 47, 0.1);
+  /* 仅最左「日报」窄轨右侧投影 */
+  --dfos-rail-shadow: 8px 0 24px rgba(15, 15, 20, 0.08);
+  --dfos-rail-shadow-mobile: 0 4px 18px rgba(15, 15, 20, 0.09);
+  --dfos-nav-hover-bg: #eef6fc;
+  --dfos-nav-active-hover-bg: #eef6fc;
+  /* 文章重点高亮：浅黄底 */
+  --dfos-key-bg: #fff9c4;
+  --dfos-qa-q-bg: #eef6fc;
+  --dfos-qa-mark: #0095ff;
+  --dfos-a-border: rgba(0, 149, 255, 0.35);
+  --dfos-range-track: #e5e5e5;
+}
+
+html[data-theme="dark"] {
+  --dfos-accent: #5eb0ff;
+  --dfos-accent-hover: #8ec8ff;
+  --dfos-shell-bg: #1e1e22;
+  --dfos-content-bg: #252528;
+  --dfos-text-primary: #f5f5f7;
+  --dfos-text-body: #d1d1d6;
+  --dfos-text-muted: #8e8e93;
+  --dfos-border: #3a3a40;
+  --dfos-chrome-bg: #252528;
+  --dfos-sidebar-bg: var(--dfos-chrome-bg);
+  --dfos-date-row-bg: var(--dfos-chrome-bg);
+  /* 选中/悬停仅日期行变化，略提亮 */
+  --dfos-date-row-active: #32353c;
+  --dfos-date-row-active-hover: #383d48;
+  --dfos-rail-bg: var(--dfos-chrome-bg);
+  --dfos-rail-active-bg: var(--dfos-chrome-bg);
+  --dfos-date-divider: rgba(255, 255, 255, 0.1);
+  --dfos-rail-shadow: 10px 0 32px rgba(0, 0, 0, 0.38);
+  --dfos-rail-shadow-mobile: 0 4px 20px rgba(0, 0, 0, 0.45);
+  --dfos-nav-hover-bg: rgba(94, 176, 255, 0.12);
+  --dfos-nav-active-hover-bg: rgba(94, 176, 255, 0.16);
+  --dfos-key-bg: rgba(250, 204, 21, 0.28);
+  --dfos-qa-q-bg: #2a3340;
+  --dfos-qa-mark: #5eb0ff;
+  --dfos-a-border: rgba(94, 176, 255, 0.38);
+  --dfos-range-track: #555;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--dfos-font);
+  color: var(--dfos-text-body);
+  background: var(--dfos-shell-bg);
+}
+
+body.dfos-article-body.briefing-page {
+  background: var(--dfos-shell-bg) !important;
+}
+
+/* 全宽行：侧栏贴齐视口最左，主区占剩余空间 */
+.dfos-page {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* 最左侧窄轨：预留多入口，目前仅「日报」；右侧投影仅在此列 */
+.dfos-rail {
+  flex: 0 0 72px;
+  width: 72px;
+  min-width: 72px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: var(--dfos-pad-top) 0 var(--dfos-pad-bottom);
+  background: var(--dfos-rail-bg);
+  border-right: none;
+  font-family: var(--dfos-font);
+  gap: 0;
+  box-shadow: var(--dfos-rail-shadow);
+  position: relative;
+  z-index: 2;
+}
+
+.dfos-rail__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 52px;
+  padding: 0;
+  border-radius: 0;
+  border: none;
+  background: transparent;
+  color: var(--dfos-text-body);
+  text-decoration: none;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.2;
+  transition: background 0.15s ease, color 0.15s ease;
+  box-sizing: border-box;
+}
+
+.dfos-rail__item:hover {
+  background: var(--dfos-rail-bg);
+  color: var(--dfos-text-body);
+}
+
+.dfos-rail__item--active {
+  background: var(--dfos-rail-active-bg) !important;
+  border: none !important;
+  color: var(--dfos-text-primary) !important;
+}
+
+.dfos-rail__icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2px;
+  color: var(--dfos-text-muted);
+}
+
+.dfos-rail__item--active .dfos-rail__icon-wrap {
+  color: var(--dfos-accent);
+}
+
+.dfos-rail__svg {
+  display: block;
+}
+
+.dfos-rail__label {
+  text-align: center;
+  word-break: keep-all;
+}
+
+.sidebar {
+  flex: 1 1 0;
+  min-width: 0;
+  border-right: none;
+  padding: 0 0 var(--dfos-pad-bottom);
+  background: var(--dfos-sidebar-bg);
+  font-family: var(--dfos-font);
+}
+
+.dfos-catalog-head {
+  padding: 28px 20px 20px;
+}
+
+.dfos-catalog-brand {
+  margin: 0;
+  font-family: var(--dfos-font-serif);
+  font-size: 1.625rem;
+  font-weight: 700;
+  letter-spacing: var(--dfos-briefing-h1-spacing);
+  line-height: 1.2;
+  color: var(--dfos-text-primary);
+}
+
+.dfos-main {
+  flex: 3 1 0;
+  min-width: 0;
+  background: var(--dfos-content-bg);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.dfos-main--solo {
+  flex: 1 1 auto;
+  width: 100%;
+  background: var(--dfos-content-bg);
+}
+
+.dfos-main--with-rail {
+  flex: 3 1 0;
+  min-width: 0;
+}
+
+/* 正文栏：宽度在 960–1440 之间随父级伸缩 */
+.dfos-text-rail {
+  width: 100%;
+  max-width: var(--dfos-max);
+  min-width: var(--dfos-min);
+  margin: 0 auto;
+  flex: 1 1 auto;
+}
+
+.dfos-page--article .dfos-text-rail {
+  margin: 0 auto;
+}
+
+/* 目录：白底侧栏上的浅灰行 + 行间分割；列表区透明 */
+#date-list.dfos-date-list {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  border-radius: 0;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+}
+
+#date-list.dfos-date-list li {
+  margin: 0;
+  border-bottom: 1px solid var(--dfos-date-divider);
+}
+
+#date-list.dfos-date-list li:last-child {
+  border-bottom: none;
+}
+
+.briefing-frame-wrap {
+  width: 100%;
+  min-height: 100vh;
+}
+
+.briefing-placeholder {
+  margin: var(--dfos-pad-top) var(--dfos-content-pad-x) var(--dfos-pad-bottom);
+  padding: 16px 20px;
+  background: var(--dfos-content-bg);
+  border: 1px solid var(--dfos-border);
+  border-radius: var(--dfos-radius);
+  color: var(--dfos-text-muted);
+}
+
+.briefing-frame {
+  display: block;
+  width: 100%;
+  min-height: 480px;
+  border: none;
+  background: transparent;
+}
+
+.date-btn,
+.btn {
+  border: none;
+  border-radius: 0;
+  background: var(--dfos-date-row-bg);
+  padding: 14px 20px;
+  cursor: pointer;
+  text-decoration: none;
+  color: var(--dfos-text-body);
+  width: 100%;
+  text-align: left;
+  transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: none;
+  font-size: var(--dfos-briefing-h2-size);
+  font-weight: var(--dfos-briefing-h2-weight);
+  letter-spacing: var(--dfos-briefing-h2-spacing);
+  line-height: var(--dfos-briefing-h2-line);
+  font-family: var(--dfos-font-serif);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+}
+
+.date-btn__top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 6px 10px;
+  width: 100%;
+}
+
+.date-btn__primary {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: var(--dfos-briefing-h2-size);
+  font-weight: var(--dfos-briefing-h2-weight);
+  letter-spacing: var(--dfos-briefing-h2-spacing);
+  line-height: var(--dfos-briefing-h2-line);
+}
+
+.date-btn__stat {
+  flex: 0 0 auto;
+  font-family: var(--dfos-font);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: var(--dfos-text-muted);
+  white-space: nowrap;
+  line-height: 1.2;
+}
+
+.date-btn__deep {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  width: 100%;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: var(--dfos-briefing-h2-spacing);
+  color: var(--dfos-text-muted);
+}
+
+.date-btn__no-deep {
+  width: 100%;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+  color: var(--dfos-text-muted);
+  opacity: 0.92;
+}
+
+/* 未选中的日报行：整体灰阶，突出当前选中项 */
+.date-btn:not(.date-btn--active) {
+  color: var(--dfos-text-muted);
+}
+
+.date-btn:not(.date-btn--active) .date-btn__primary {
+  color: var(--dfos-text-muted);
+  opacity: 0.92;
+}
+
+.date-btn:not(.date-btn--active) .date-btn__stat {
+  opacity: 0.72;
+}
+
+.date-btn:not(.date-btn--active) .date-btn__deep,
+.date-btn:not(.date-btn--active) .date-btn__no-deep {
+  opacity: 0.85;
+}
+
+.date-btn:hover:not(.date-btn--active),
+.btn:hover {
+  background: var(--dfos-nav-hover-bg);
+}
+
+html[data-theme="dark"] .date-btn:hover:not(.date-btn--active),
+html[data-theme="dark"] .btn:hover {
+  background: var(--dfos-nav-hover-bg);
+}
+
+/* 选中：浅色为纯白条（示意顶行）；深色模式为略亮底，无描边 */
+.date-btn--active {
+  background: var(--dfos-date-row-active) !important;
+  box-shadow: none !important;
+  color: var(--dfos-text-primary) !important;
+}
+
+.date-btn--active:hover {
+  background: var(--dfos-date-row-active-hover) !important;
+  box-shadow: none !important;
+  color: var(--dfos-text-primary) !important;
+}
+
+.date-btn--active .date-btn__stat,
+.date-btn--active .date-btn__deep,
+.date-btn--active .date-btn__no-deep {
+  color: var(--dfos-text-body);
+  opacity: 1;
+}
+
+/* 文章正文：宋体栈（与侧栏标题层次一致） */
+.dfos-article-prose,
+.dfos-article-prose p,
+.dfos-article-prose li,
+.dfos-article-prose blockquote {
+  font-family: var(--dfos-font-serif);
+}
+
+.dfos-player,
+.dfos-player button,
+.dfos-player .dfos-player-time,
+.dfos-player .dfos-player-status {
+  font-family: var(--dfos-font);
+}
+
+/* —— 结构化文章 Q/A（参考口播母本版式）—— */
+.dfos-article-prose .dfos-qa {
+  position: relative;
+  margin: 28px 0;
+}
+
+.dfos-article-prose .dfos-qa-mark {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--dfos-qa-mark);
+  margin-bottom: 6px;
+  letter-spacing: 0.02em;
+}
+
+.dfos-article-prose .dfos-qa--q .dfos-qa-body {
+  background: var(--dfos-qa-q-bg);
+  border-radius: var(--dfos-radius);
+  padding: 14px 18px;
+  border: 1px solid var(--dfos-border);
+}
+
+.dfos-article-prose .dfos-qa--q .dfos-qa-body p {
+  margin: 0;
+}
+
+.dfos-article-prose .dfos-qa--a .dfos-qa-body p {
+  margin: 0;
+}
+
+.dfos-article-prose .dfos-qa--a-lead .dfos-qa-body {
+  padding: 16px 18px;
+  border-radius: var(--dfos-radius);
+  border: 1px solid var(--dfos-a-border);
+}
+
+/* 答段内加粗 = 划重点（荧光笔） */
+.dfos-article-prose .dfos-qa--a .dfos-qa-body strong {
+  background: var(--dfos-key-bg);
+  font-weight: 600;
+  padding: 0 3px;
+  border-radius: 2px;
+}
+
+.dfos-article-prose mark.dfos-key {
+  background: var(--dfos-key-bg);
+  color: inherit;
+  font-weight: 600;
+  padding: 0 3px;
+  border-radius: 2px;
+}
+
+/* 开篇段落在首个 h2 前已由服务端转为 mark.dfos-key；未转换的加粗也可兼顾 */
+.dfos-article-prose > p strong {
+  background: var(--dfos-key-bg);
+  font-weight: 600;
+  padding: 0 3px;
+  border-radius: 2px;
+}
+
+.dfos-article-container {
+  max-width: none !important;
+  padding: var(--dfos-pad-top) var(--dfos-content-pad-x) var(--dfos-pad-bottom) !important;
+  box-sizing: border-box;
+}
+
+/* 去掉 Markdown 水平分割线 */
+.dfos-article-prose hr {
+  display: none;
+  margin: 0;
+  height: 0;
+  border: 0;
+  visibility: hidden;
+}
+
+.dfos-article-main {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dfos-back-row {
+  margin: 0 0 12px;
+}
+
+.dfos-back-link {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--dfos-accent);
+  text-decoration: none;
+}
+
+.dfos-back-link:hover {
+  color: var(--dfos-accent-hover);
+  text-decoration: underline;
+}
+
+/* —— 自定义语音条（第三张参考：状态 + 圆角控制条）—— */
+.dfos-player {
+  margin: 16px 0 32px;
+  position: relative;
+}
+
+.dfos-player-row {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 24px;
+}
+
+.dfos-player-status {
+  font-size: 14px;
+  color: var(--dfos-text-muted);
+  line-height: 1.4;
+}
+
+.dfos-player-chrome {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 24px;
+  padding: 14px 24px;
+  background: var(--dfos-content-bg);
+  border: 1px solid var(--dfos-border);
+  border-radius: var(--dfos-radius);
+  box-shadow: none;
+}
+
+.dfos-player-chrome--disabled {
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.dfos-player-chrome--ready {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.dfos-player-play {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid var(--dfos-accent);
+  background: var(--dfos-content-bg);
+  color: var(--dfos-accent);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.dfos-player-play:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+  border-color: var(--dfos-border);
+  color: var(--dfos-text-muted);
+}
+
+.dfos-player-icon-svg {
+  display: block;
+  flex-shrink: 0;
+}
+
+.dfos-player-time {
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  color: var(--dfos-text-muted);
+  min-width: 88px;
+  flex-shrink: 0;
+}
+
+/* 进度/音量：浅灰轨道 + 线性自定义滑块（淡化系统默认深色条） */
+.dfos-player-scrub,
+.dfos-player-vol {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.dfos-player-scrub {
+  flex: 1 1 140px;
+  min-width: 120px;
+  height: 20px;
+}
+
+.dfos-player-scrub:disabled,
+.dfos-player-vol:disabled {
+  cursor: not-allowed;
+}
+
+.dfos-player-scrub::-webkit-slider-runnable-track,
+.dfos-player-vol::-webkit-slider-runnable-track {
+  height: 4px;
+  background: var(--dfos-range-track);
+  border-radius: 2px;
+}
+
+.dfos-player-scrub::-webkit-slider-thumb,
+.dfos-player-vol::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  margin-top: -5px;
+  border-radius: 50%;
+  background: var(--dfos-accent);
+  border: 2px solid var(--dfos-content-bg);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.06);
+}
+
+.dfos-player-scrub::-moz-range-track,
+.dfos-player-vol::-moz-range-track {
+  height: 4px;
+  background: var(--dfos-range-track);
+  border-radius: 2px;
+}
+
+.dfos-player-scrub::-moz-range-thumb,
+.dfos-player-vol::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--dfos-accent);
+  border: 2px solid var(--dfos-content-bg);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.06);
+}
+
+.dfos-player-vol {
+  width: 72px;
+  min-width: 72px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.dfos-player-ff {
+  flex-shrink: 0;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: var(--dfos-radius);
+  border: 1px solid var(--dfos-border);
+  background: var(--dfos-content-bg);
+  cursor: pointer;
+  color: var(--dfos-text-body);
+}
+
+.dfos-player-ff:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.dfos-player-vol-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 24px;
+  flex-shrink: 0;
+  color: var(--dfos-text-body);
+  cursor: default;
+}
+
+.dfos-player-vol-wrap .dfos-player-icon-svg--vol {
+  color: var(--dfos-text-muted);
+}
+
+.dfos-audio-el {
+  position: absolute;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.dfos-theme-toggle {
+  position: fixed;
+  top: 16px;
+  right: 20px;
+  z-index: 9999;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--dfos-radius);
+  border: 1px solid var(--dfos-border);
+  background: var(--dfos-content-bg);
+  color: var(--dfos-text-body);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.dfos-theme-toggle:hover {
+  background: var(--dfos-nav-hover-bg);
+  border-color: rgba(0, 149, 255, 0.35);
+}
+
+html[data-theme="dark"] .dfos-theme-toggle:hover {
+  border-color: rgba(94, 176, 255, 0.35);
+}
+
+.dfos-theme-toggle__icon {
+  display: block;
+}
+
+/* 文章页：覆盖 briefing.css 的 Notion 色，随主题切换 */
+html[data-theme="dark"] body.dfos-article-body.briefing-page {
+  background: var(--dfos-shell-bg) !important;
+  color: var(--dfos-text-body) !important;
+}
+
+html[data-theme="dark"] .dfos-article-body .briefing-prose,
+html[data-theme="dark"] .dfos-article-body .briefing-prose li,
+html[data-theme="dark"] .dfos-article-body .briefing-prose p {
+  color: var(--dfos-text-body) !important;
+}
+
+html[data-theme="dark"] .dfos-article-body .briefing-prose h1,
+html[data-theme="dark"] .dfos-article-body .briefing-prose h2,
+html[data-theme="dark"] .dfos-article-body .briefing-prose h3 {
+  color: var(--dfos-text-primary) !important;
+}
+
+html[data-theme="dark"] .dfos-article-body .briefing-prose a {
+  color: var(--dfos-accent) !important;
+}
+
+@media (max-width: 900px) {
+  .dfos-page {
+    flex-direction: column;
+  }
+
+  .dfos-rail {
+    flex-direction: row;
+    flex: 0 0 auto;
+    width: 100%;
+    min-width: 0;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 12px 16px;
+    gap: 12px;
+    border-bottom: 1px solid var(--dfos-border);
+    box-shadow: var(--dfos-rail-shadow-mobile);
+  }
+
+  .dfos-rail__item {
+    flex-direction: row;
+    width: auto;
+    min-height: 0;
+    padding: 8px 12px;
+  }
+
+  .dfos-rail__icon-wrap {
+    margin-bottom: 0;
+    margin-right: 6px;
+  }
+
+  .sidebar {
+    flex: none;
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--dfos-border);
+  }
+
+  .dfos-catalog-head {
+    padding: 22px 16px 18px;
+  }
+
+  .dfos-text-rail {
+    min-width: 0;
+    max-width: 100%;
+  }
+}

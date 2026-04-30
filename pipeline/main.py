@@ -9,6 +9,7 @@
 6. 通知
 """
 import json
+import os
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -40,7 +41,12 @@ from pipeline.deep_dive import (
 from pipeline.notify import notify
 
 
-DATE = datetime.now().strftime("%Y-%m-%d")
+def _resolve_pipeline_date() -> str:
+    """优先环境变量 BRIEFING_DATE（YYYY-MM-DD），否则当天本地日期。"""
+    return os.environ.get("BRIEFING_DATE") or datetime.now().strftime("%Y-%m-%d")
+
+
+DATE = _resolve_pipeline_date()
 
 
 def save_intermediate(step_name: str, data):
@@ -126,6 +132,11 @@ def step_score(raw_items: list[dict]) -> tuple[list[dict], list[str]]:
     # Twitter 渠道：在 LLM 打分后对 final_score 做小幅加成（同 tier 内更易进前排）
     for row in scored:
         idx = row.get("index", -1)
+        # 强制转为 int（LLM 可能返回字符串）
+        try:
+            idx = int(idx)
+        except (ValueError, TypeError):
+            idx = -1
         if 0 <= idx < len(filtered) and is_twitter_item(filtered[idx]):
             fs = row.get("final_score")
             if isinstance(fs, (int, float)):
@@ -146,6 +157,11 @@ def step_score(raw_items: list[dict]) -> tuple[list[dict], list[str]]:
     # 恢复原始 source_url、source、source_channel（index 对应 filtered）
     for item in result:
         idx = item.get("index", 0)
+        # 强制转为 int
+        try:
+            idx = int(idx)
+        except (ValueError, TypeError):
+            idx = 0
         if idx < len(source_urls):
             item["source_url"] = source_urls[idx]
         if idx < len(filtered):
@@ -271,6 +287,9 @@ def run(skip_scrape: bool = False):
         skip_scrape: 跳过抓取步骤，直接使用 data/raw/ 中已有的数据。
                      用于测试 LLM 链路或手动抓取后单独跑处理。
     """
+    global DATE
+    DATE = _resolve_pipeline_date()
+
     print(f"\n{'='*60}")
     print(f"  Daily Briefing Pipeline — {DATE}")
     if skip_scrape:
@@ -327,5 +346,17 @@ def run(skip_scrape: bool = False):
 
 
 if __name__ == "__main__":
-    skip = "--skip-scrape" in sys.argv
-    run(skip_scrape=skip)
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Daily briefing pipeline（抓取→简报→简报 HTML）")
+    parser.add_argument("--skip-scrape", action="store_true", help="跳过抓取，使用当日已有 raw")
+    parser.add_argument(
+        "--date",
+        metavar="YYYY-MM-DD",
+        default=None,
+        help="覆盖输出日期（写入环境变量 BRIEFING_DATE）",
+    )
+    args = parser.parse_args()
+    if args.date:
+        os.environ["BRIEFING_DATE"] = args.date
+    run(skip_scrape=args.skip_scrape)
