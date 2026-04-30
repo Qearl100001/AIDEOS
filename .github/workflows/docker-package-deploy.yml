@@ -1,7 +1,8 @@
 name: Docker Package Deploy
 
 permissions:
-  contents: write  # git-auto-commit-action 写入 VERSION
+  # git-auto-commit-action 需要写入 VERSION
+  contents: write
 
 on:
   workflow_dispatch:  # 仅手动触发（不再在 push 时自动构建部署）

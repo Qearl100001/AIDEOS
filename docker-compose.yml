@@ -2,7 +2,8 @@ version: '3.8'
 
 services:
   dfos:
-    image: crpi-y2mlko5kogge3g4i.cn-hongkong.personal.cr.aliyuncs.com/dfos/design:${DFOS_IMAGE_TAG:-latest}
+    # 整段加引号，避免部分 compose 解析器把 ${...:-...} 里的冒号当成 image:tag 分隔歧义
+    image: "crpi-y2mlko5kogge3g4i.cn-hongkong.personal.cr.aliyuncs.com/dfos/design:${DFOS_IMAGE_TAG:-latest}"
     build:
       context: .
       dockerfile: Dockerfile
