@@ -2,22 +2,21 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-# 安装系统依赖
+# 安装系统依赖（Playwright 浏览器由 python -m playwright install 下载，无需 apt 装 chromium）
 RUN apt-get update && apt-get install -y \
     curl \
     gcc \
     libffi-dev \
-    chromium \
     && rm -rf /var/lib/apt/lists/*
-
-# 安装 Playwright 浏览器
-RUN playwright install --with-deps chromium
 
 # 复制依赖文件
 COPY requirements.txt .
 
-# 安装 Python 依赖
+# 安装 Python 依赖（含 playwright 包后才有 CLI）
 RUN pip install --no-cache-dir -r requirements.txt
+
+# 安装 Playwright 浏览器及系统库（须在用 pip 安装 playwright 之后）
+RUN python -m playwright install --with-deps chromium
 
 # 复制应用代码
 COPY . .
