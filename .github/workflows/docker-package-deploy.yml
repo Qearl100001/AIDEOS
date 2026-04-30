@@ -69,13 +69,13 @@ jobs:
         env:
           DOCKER_REGISTRY_USER: ${{ secrets.DOCKER_REGISTRY_USER }}
           DOCKER_REGISTRY_PASSWORD: ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
+          DEPLOY_DIR: /DEOS
+          DEPLOY_TAG: v${{ steps.version.outputs.new_version }}
         with:
           host: ${{ secrets.SSH_HOST }}
           port: ${{ secrets.SSH_PORT || 22 }}
           username: ${{ secrets.SSH_USER || 'root' }}
           password: ${{ secrets.SSH_PASSWORD }}
           command_timeout: 15m
-          envs: DOCKER_REGISTRY_USER,DOCKER_REGISTRY_PASSWORD
-          script: |
-            cd /DEOS
-            bash deploy-server.sh v${{ steps.version.outputs.new_version }}
+          envs: DOCKER_REGISTRY_USER,DOCKER_REGISTRY_PASSWORD,DEPLOY_DIR,DEPLOY_TAG
+          script_path: scripts/deploy-server.sh
