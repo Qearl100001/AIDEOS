@@ -12,6 +12,7 @@
 #   IMAGE_NAME - 镜像名称
 #   DOCKER_REGISTRY_USER - 用户名
 #   DOCKER_REGISTRY_PASSWORD - 密码
+#   （脚本会根据 [tag] 自动 export DFOS_IMAGE_TAG，供 docker-compose.yml 中 image 插值）
 #
 
 set -e
@@ -31,6 +32,9 @@ echo "${DOCKER_REGISTRY_PASSWORD}" | docker login ${REGISTRY} -u "${DOCKER_REGIS
 
 # 拉取最新镜像
 docker pull ${FULL_IMAGE}
+
+# 与 docker-compose.yml 中 image:${DFOS_IMAGE_TAG} 对齐
+export DFOS_IMAGE_TAG="${TAG}"
 
 # 停止旧容器
 docker-compose -f ${COMPOSE_FILE} down || true

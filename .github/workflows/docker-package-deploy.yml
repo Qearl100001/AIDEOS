@@ -1,5 +1,8 @@
 name: Docker Package Deploy
 
+permissions:
+  contents: write  # git-auto-commit-action 写入 VERSION
+
 on:
   workflow_dispatch:  # 手动触发
   push:
@@ -15,7 +18,7 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    environment:DEOS
+    environment: DEOS
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -71,14 +74,16 @@ jobs:
 
       - name: Deploy to server via SSH
         uses: appleboy/ssh-action@v1
+        env:
+          DOCKER_REGISTRY_USER: ${{ secrets.DOCKER_REGISTRY_USER }}
+          DOCKER_REGISTRY_PASSWORD: ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
         with:
           host: ${{ secrets.SSH_HOST }}
-          port: ${{ secrets.SSH_PORT }}
+          port: ${{ secrets.SSH_PORT || 22 }}
           username: root
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          command: |
-            cd /app
-            echo "${{ secrets.DOCKER_REGISTRY_PASSWORD }}" | docker login crpi-y2mlko5kogge3g4i.cn-hongkong.personal.cr.aliyuncs.com -u ${{ secrets.DOCKER_REGISTRY_USER }} --password-stdin
-            docker-compose pull
-            docker-compose up -d
-            docker logout crpi-y2mlko5kogge3g4i.cn-hongkong.personal.cr.aliyuncs.com
+          command_timeout: 15m
+          envs: DOCKER_REGISTRY_USER,DOCKER_REGISTRY_PASSWORD
+          script: |
+            cd /DEOS
+            bash deploy-server.sh v${{ steps.version.outputs.new_version }}
